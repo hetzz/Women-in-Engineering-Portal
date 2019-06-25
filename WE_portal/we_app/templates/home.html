@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    {% load static %}
+    <title>WE_portal</title>
+</head>
+<body>
+        <nav>
+                <div class="nav-wrapper" style ="background: #4a148c ">
+                    <a href="/home/" class="brand-logo"> <img  src="{% static 'assets/WE.png' %}"  height="65" width="200"> </a>
+                    <ul id="nav-mobile" class="right hide-on-med-and-down">
+                    
+                            <li><a href="">About</a></li>
+                    </ul>
+                </div>
+            </nav>
+        <center>
+        <div class="row">
+                <div class="row col s6">
+                  <div class="card purple darken-3 ">
+                    <div class="card-content " align-text = "center">
+                      <a href = "/student_login/" >
+                          Student
+                      </a>
+                    </div>
+                  </div>
+                </div>
+        </div>
+                <div class="row">
+                        <div class="row col s6">
+                          <div class="card purple darken-3 ">
+                            <div class="card-content " align-text = "center">
+                              <a href = "/faculty_login/" >
+                                  Faculty
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+                </div>
+                <div class="row">
+                        <div class="row col s6">
+                          <div class="card purple darken-3 ">
+                            <div class="card-content " align-text = "center">
+                              <a href = "/company_login/" >
+                                  Company
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+                </div>
+        </center>
+</body>
+</html>
