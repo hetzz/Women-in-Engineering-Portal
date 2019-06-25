@@ -21,10 +21,11 @@
         <div class="nav-wrapper" style ="background: #4a148c ">
           <a href="/home/" class="brand-logo"> <img  src="{% static 'assets/WE.png' %}"  height="65" width="200"> </a>
           <ul id="nav-mobile" class="right hide-on-med-and-down">
-            
-              <li><a href="#!">Account</a></li>
-              <li><a href="/student_profile/">Edit Profile</a></li>
               <li><a href="#!">Company Invites</a></li>
+              <li><a href="/student_profile/">Edit Profile</a></li>
+              <li><a href="/student_account/">{{ username }}</a></li>
+              <li><form action = 'Post'> {% csrf_token %} <a href="/logout/">Log out</a></form></li>
+              
             <!-- <li><a href="collapsible.html">{{Student_sign_up.student_id}}</a></li> -->
           </ul>
         </div>
@@ -32,12 +33,14 @@
             
     <div class="container z-depth-2" style="background:#f3e5f5 " style="margin-top: 2vw;">       
         <div class="student_profile" style ="align-content: center">
+          <form class ="col s12" method="POST">
+            {% csrf_token %}
             <div class="student_input">
                 <div class="row">
                     <form class="col s12">
                         <div class=" col s12">
                             <div class="input-field col s12">
-                                <textarea id="FullName" class="materialize-textarea" ></textarea>
+                                <textarea name = "FullName" id="FullName" class="materialize-textarea" ></textarea>
                                 <label for="FullName">Full Name</label>
                             </div>
                         </div>
@@ -45,7 +48,7 @@
                     <form class="col s12">
                         <div class="col s12 ">
                           <div class="input-field col s12">
-                            <textarea id="About" class="materialize-textarea" data-length = "500"></textarea>
+                            <textarea name = "About" id="About" class="materialize-textarea" data-length = "500"></textarea>
                             <label for="About">About </label>
                           </div>
                         </div>
@@ -53,7 +56,7 @@
                     <form class="col s12">
                         <div class="col s12">
                             <div class="input-field col s12">
-                                <textarea id="Degree" class="materialize-textarea" ></textarea>
+                                <textarea name = "Degree" id="Degree" class="materialize-textarea" ></textarea>
                                 <label for="Degree">Enter your qualification</label>
                             </div>
                         </div>
@@ -61,16 +64,16 @@
                     
                         <div class="col s12">
                             <div class="input-field col s12">
-                                <textarea id="Tag Line" class="materialize-textarea" ></textarea>
+                                <textarea name = "Tag Line" id ="Tag Line" class="materialize-textarea" ></textarea>
                                 <label for="Tag Line">Tag Line(Max 200 characters)</label>
                             </div>
                         </div>
                     
-                    <form class = "col s12" action="#">
+                    <form class = "col s12" action="POST">
                         <div class="file-field input-field col s12">
                           <div class="btn purple darken-4 ">
                             <span>File</span>
-                            <input type="file">
+                            <input type="file" id = "Resume" name = "Resume">
                           </div>
                           <div class="file-path-wrapper">
                             <input class="file-path validate" type="text" placeholder="Resume">
@@ -80,41 +83,41 @@
                     <!-- <div class = "col  s12"><h5> Enter your Fields of interest</h5></div> -->
                     <div class="col s12">
                         <div class="input-field col s6">
-                            <input id="first_interest" type="text" class="validate">
+                            <input name = "first_interest" id="first_interest" type="text" class="validate">
                             <label for="first_interest">First field of Interest</label>
                           </div>
                         <div class="input-field col s6">
-                          <input id="second_interest" type="text" class="validate">
+                          <input name = "second_interest" id="second_interest" type="text" class="validate">
                           <label for="second_interest">Second field of Interest</label>
                         </div>
                     </div>
                     <div class="col s12">
                         <div class="input-field col s6">
-                            <input id="third_interest" type="text" class="validate">
+                            <input name = "third_interest" id="third_interest" type="text" class="validate">
                             <label for="third_interest">Third field of Interest</label>
                           </div>
                           <div class="input-field col s6">
-                              <input id="fouth_interest" type="text" class="validate">
+                              <input name = "fouth_interest" id="fouth_interest" type="text" class="validate">
                               <label for="fourth_interest">Fourth field of Interest</label>
                           </div>
                     </div>
                     <div class="col s12">
                         <div class="input-field col s6">
-                            <input id="github_link" type="text" class="validate">
+                            <input name = "github_link" id="github_link" type="url" pattern="https?://.+" required  class="validate">
                             <label for="github_link">Github Link</label>
                           </div>
                         <div class="input-field col s6">
-                          <input id="gitlab_link" type="text" class="validate">
+                          <input name = "gitlab_link" id="gitlab_link" type="url" pattern="https?://.+" required  class="validate">
                           <label for="gitlab_link">Gitlab Link</label>
                         </div>
                     </div>
                     <div class="col s12">
                         <div class="input-field col s6">
-                            <input id="linkdIn_link" type="text" class="validate">
+                            <input name = "linkdIn_link" id="linkdIn_link" type="url" pattern="https?://.+" required  class="validate">
                             <label for="linkdIn_link">LinkdIn Link</label>
                           </div>
                           <div class="input-field col s6">
-                              <input id="Other" type="text" class="validate">
+                              <input name = "Other" id="Other" type="url" pattern="https?://.+" required class="validate">
                               <label for="Other">Other</label>
                           </div>
                     </div>
@@ -124,6 +127,7 @@
                   
                 </div>
             </div>
+          </form>
         </div>
     </div>
     <script

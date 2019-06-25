@@ -43,47 +43,104 @@ def signUp(request):
 
 
 def login(request):
+    # try:
+    #     if request.session['name']:
+    #         context = {'username':request.session['name'], 'login_status':0}
+    #     else:
+    #         context = {'username':'public','login_status':1}
+    # except:
+    #     pass
     if request.method == 'GET':
         return render(request, "login.html")
     else:
         email = request.POST.get('email', None)
         password = request.POST.get('password', None)
         if request.POST.get('Student', None):
-            student = Student.objects.filter(email_id=email)
-            student = student[0]
-            if student.password == password:
+            try :
+                student = Student.objects.filter(email_id=email)
+                student = student[0]
+            except :
+                student = None
+            if student != None and student.password == password  :
                 request.session['name'] = student.full_name
                 return redirect(student_profile)
             else:
-                return render(request, 'login.html', context={'verify': 'Wrong Password :/'})
+                return render(request, 'login.html', context={'verify': 'Either Email or password is wrong :/'})
         elif request.POST.get('Faculty', None):
-            faculty = Faculty.objects.filter(email_id=email)
-            faculty = faculty[0]
-            if faculty.password == password:
+            try :
+                faculty = Faculty.objects.filter(email_id=email)
+                faculty = faculty[0]
+            except :
+                faculty = None
+            if faculty != None and faculty.password == password:
                 request.session['name'] = faculty.full_name
                 return redirect(student_profile)
             else:
-                return render(request, 'login.html', context={'verify': 'Wrong Password :/'})
+                return render(request, 'login.html', context={'verify': 'Either Email or password is wrong :/'})
         
         elif request.POST.get('Company', None):
-            company = Company.objects.filter(email_id=email)
-            company = company[0]
-            if company.password == password:
+            try :
+                company = Company.objects.filter(email_id=email)
+                company = company[0]
+            except :
+                company = None
+            if company != None and company.password == password:
                 request.session['name'] = company.full_name
                 return redirect(company_dashboard)
             else:
-                return render(request, 'login.html', context={'verify': 'Wrong Password :/'})
+                return render(request, 'login.html', context={'verify': 'Either Email or password is wrong :/'})
        
-
-
+def logout(request):
+    if request.method=='GET':
+        request.session['name'] = ''
+        return redirect(home)
 
 def student_profile(request):
+    context = {'username' : request.session['name']}
     if request.method == 'GET':
-        return render(request, 'student_profile.html')
+        if request.session['name'] == "" :
+            return redirect(login)
+        else :
+            return render(request, 'student_profile.html',context)
+    else :
+        student = request.session['name']
+        print(student)
+        if student == request.POST.get('FullName'):
+            profile = Student_profile()
+            profile.about = request.POST.get('About')
+            profile.qualification = request.POST.get('Degree')
+            profile.tag_line = request.POST.get('Tag Line')
+            #profile.resume = request.POST.get('Resume')
+            profile.first_interest = request.POST.get('first_interest')
+            profile.second_interest = request.POST.get('second_interest')
+            profile.third_interest = request.POST.get('third_interest')
+            profile.fourth_interest = request.POST.get('fourth_interest')
+            profile.github_link = request.POST.get('github_link')
+            profile.gitlab_link = request.POST.get('gitlab_link')
+            profile.linkedIn_link = request.POST.get('linkedIn_link')
+            profile.Other = request.POST.get('Other')
+            profile.save()
+            profile = Student_profile.objects.filter(full_name = student)
+            profile = profile[0]
+            print(profile)
+            return redirect(student_account)
+
+def student_account(request):
+    return render(request,"student_account.html")
 
 def company_dashboard(request):
-    return render(request, "company_dashboard.html")
+    context = {'username' : request.session['name']}
+    if request.method == 'GET':
+        if request.session['name'] == "" :
+            return redirect(login)
+        else :
+            return render(request, 'student_profile.html',context)
 
+def fetchStudents() :
+    STUDENTS = []
+    students = Student_profile.objects.all()
+    for student in students :
+        
 
 def home(request):
     return render(request, "home.html")
