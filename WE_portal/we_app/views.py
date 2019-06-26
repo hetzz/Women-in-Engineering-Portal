@@ -133,11 +133,12 @@ def student_account(request):
     return render(request,"student_account.html")
 
 def company_dashboard(request):
-    context = {'username' : request.session['name']}
+    context = {'username' : request.session['name'], 'student' : []}
     if request.method == 'GET':
         if request.session['name'] == "" :
             return redirect(login)
         else :
+            context['username'] = request.session['name']
             STUDENTS = fetchStudents()
             context['students'] = []
             for student in STUDENTS :
@@ -150,6 +151,7 @@ def fetchStudents() :
     for student in students :
         STUDENT = {}
         STUDENT['full_name'] = student.full_name
+        # STUDENT[]
         STUDENT['about'] = student.about
         STUDENT['qualification'] = student.qualification
         STUDENT['tag_line'] = student.tag_line
