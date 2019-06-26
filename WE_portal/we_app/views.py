@@ -26,7 +26,7 @@ def signUp(request):
         elif request.POST.get('Faculty', None):
             faculty = Faculty()
             faculty.Faculty_id = ID
-            faculty.full_name = full_name
+            faculty.faculty_name = full_name
             faculty.email_id = email
             faculty.password = password
             faculty.save()
@@ -34,7 +34,7 @@ def signUp(request):
         elif request.POST.get('Company', None):
             company = Company()
             company.Company_id = ID
-            company.full_name = full_name
+            company.company_name = full_name
             company.email_id = email
             company.password = password
             company.save()
@@ -73,7 +73,7 @@ def login(request):
             except :
                 faculty = None
             if faculty != None and faculty.password == password:
-                request.session['name'] = faculty.full_name
+                request.session['name'] = faculty.faculty_name
                 return redirect(student_profile)
             else:
                 return render(request, 'login.html', context={'verify': 'Either Email or password is wrong :/'})
@@ -85,7 +85,7 @@ def login(request):
             except :
                 company = None
             if company != None and company.password == password:
-                request.session['name'] = company.full_name
+                request.session['name'] = company.company_name
                 return redirect(company_dashboard)
             else:
                 return render(request, 'login.html', context={'verify': 'Either Email or password is wrong :/'})
@@ -105,8 +105,12 @@ def student_profile(request):
     else :
         student = request.session['name']
         print(student)
+        print(request.POST.get('FullName'))
         if student == request.POST.get('FullName'):
+            print("Yes")
             profile = Student_profile()
+            profile.full_name = request.POST.get('FullName')
+            profile.email_id = Student.email_id
             profile.about = request.POST.get('About')
             profile.qualification = request.POST.get('Degree')
             profile.tag_line = request.POST.get('Tag Line')
@@ -117,7 +121,7 @@ def student_profile(request):
             profile.fourth_interest = request.POST.get('fourth_interest')
             profile.github_link = request.POST.get('github_link')
             profile.gitlab_link = request.POST.get('gitlab_link')
-            profile.linkedIn_link = request.POST.get('linkedIn_link')
+            profile.linkdIn_link = request.POST.get('linkdIn_link')
             profile.Other = request.POST.get('Other')
             profile.save()
             profile = Student_profile.objects.filter(full_name = student)
@@ -134,13 +138,36 @@ def company_dashboard(request):
         if request.session['name'] == "" :
             return redirect(login)
         else :
-            return render(request, 'student_profile.html',context)
+            STUDENTS = fetchStudents()
+            context['students'] = []
+            for student in STUDENTS :
+                context['students'].append(student)
+            return render(request, 'company_dashboard.html',context)
 
 def fetchStudents() :
     STUDENTS = []
     students = Student_profile.objects.all()
     for student in students :
-        
+        STUDENT = {}
+        STUDENT['full_name'] = student.full_name
+        STUDENT['about'] = student.about
+        STUDENT['qualification'] = student.qualification
+        STUDENT['tag_line'] = student.tag_line
+        STUDENT['resume'] = student.resume
+        STUDENT['first_interest'] = student.first_interest
+        STUDENT['second_interest'] = student.second_interest
+        STUDENT['third_interest'] = student.third_interest
+        STUDENT['fourth_interest'] = student.fourth_interest
+        STUDENT['github_link'] = student.github_link
+        STUDENT['gitlab_link'] = student.gitlab_link
+        STUDENT['linkdIn_link'] = student.linkdIn_link
+        STUDENT['other'] = student.Other
+        STUDENT['faculty_review'] = student.faculty_review
+        STUDENT['faculty_points'] = student.faculty_points
+        STUDENTS.append(STUDENT)
+    STUDENTS = sorted(STUDENTS, key=lambda x: x['faculty_points'], reverse=True)
+    return STUDENTS
 
 def home(request):
     return render(request, "home.html")
+

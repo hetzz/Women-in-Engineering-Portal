@@ -14,7 +14,7 @@
 <body>
         <nav>
                 <div class="nav-wrapper" style ="background: #4a148c ">
-                    <a href="/home/" class="brand-logo"> <img  src="{% static 'assets/WE.png' %}"  height="65" width="200"> </a>
+                    <a href="/home/" class="brand-logo"> <img  src="{% static 'assets/WE.png' %}"  height="65" width="300"> </a>
                     <ul id="nav-mobile" class="right hide-on-med-and-down">
                     
                             <li><a href="">About</a></li>
@@ -22,39 +22,35 @@
                 </div>
             </nav>
         <center>
-        <div class="row">
-                <div class="row col s6">
-                  <div class="card purple darken-3 ">
+                <a href = "/login/" >
+                  <div class="row col s6 card indigo lighten-5 ">
                     <div class="card-content " align-text = "center">
-                      <a href = "/login/" >
+                      
                           Student
-                      </a>
+                      
                     </div>
                   </div>
+                </a>    
+                
+                <a href = "/login/" >
+                  <div class="row col s6 card indigo lighten-5 ">
+                    <div class="card-content " align-text = "center">
+                      
+                          Faculty
+                     
+                    </div>
+                  </div>
+                </a>
+                <a href = "/login/" >
+              <div class="row col s6 card indigo lighten-5 ">
+                <div class="card-content " align-text = "center">
+                  
+                      Company
+                  
                 </div>
-        </div>
-                <div class="row">
-                        <div class="row col s6">
-                          <div class="card purple darken-3 ">
-                            <div class="card-content " align-text = "center">
-                              <a href = "/login/" >
-                                  Faculty
-                              </a>
-                            </div>
-                          </div>
-                        </div>
-                </div>
-                <div class="row">
-                        <div class="row col s6">
-                          <div class="card purple darken-3 ">
-                            <div class="card-content " align-text = "center">
-                              <a href = "/login/" >
-                                  Company
-                              </a>
-                            </div>
-                          </div>
-                        </div>
-                </div>
+              </div>
+            </a>
+        
         </center>
 </body>
 </html>

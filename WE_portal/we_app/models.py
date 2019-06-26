@@ -8,7 +8,8 @@ class Student(models.Model) :
     password = models.CharField(max_length = 100)
 
 class Student_profile(models.Model):
-    full_name = models.ForeignKey(Student, on_delete = models.CASCADE,default = 'Student')
+    full_name = models.CharField(max_length = 100,default = 'Student')
+    email_id = models.CharField(max_length = 100,default = '')
     about = models.CharField(max_length = 500)
     qualification = models.CharField(max_length = 50)
     tag_line = models.CharField(max_length = 200, default = qualification)
@@ -21,6 +22,8 @@ class Student_profile(models.Model):
     gitlab_link = models.CharField(max_length = 100, default = None)
     linkdIn_link = models.CharField(max_length = 100, default = None)
     Other = models.CharField(max_length = 100, default = None)
+    faculty_review = models.CharField(max_length = 1000, default = 'Good')
+    faculty_points = models.IntegerField(default = 50)
 
 class Faculty(models.Model):
     Faculty_id = models.CharField(max_length = 50)
@@ -28,9 +31,7 @@ class Faculty(models.Model):
     email_id = models.CharField(max_length = 100)
     password = models.CharField(max_length = 100)
 
-class Faculty_Student(models.Model):
-    Faculty_name = models.ForeignKey(Faculty, on_delete = models.CASCADE,default = 'Faculty')
-    Student_name = models.ForeignKey(Student, on_delete = models.CASCADE,default = 'Student')
+
 
 class Company(models.Model):
     Company_id = models.CharField(max_length = 50)
