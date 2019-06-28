@@ -32,6 +32,14 @@ class Faculty(models.Model):
     email_id = models.CharField(max_length = 100)
     password = models.CharField(max_length = 100)
 
+class Faculty_Student(models.Model):
+    faculty_name = models.CharField(max_length = 150, default = 'Faculty')
+    faculty_email_id = models.CharField(max_length = 100)
+    full_name = models.CharField(max_length = 100,default = 'Student')
+    email_id = models.CharField(max_length = 100,default = 'NA')
+    faculty_review = models.CharField(max_length = 1000, default = 'Good')
+    faculty_points = models.IntegerField(default = 50)
+    faculty_grade = models.CharField(max_length = 10, default = 'C')
 
 
 class Company(models.Model):

@@ -19,7 +19,7 @@
 <body>
         <nav>
                 <div class="nav-wrapper" style ="background: #4a148c ">
-                    <a href="/home/" class="brand-logo"> <img  src="{% static 'assets/WE.png' %}"  height="65" width="300"> </a>
+                    <a href="/" class="brand-logo"> <img  src="{% static 'assets/WE.png' %}"  height="65" width="300"> </a>
                     <ul id="nav-mobile" class="right hide-on-med-and-down">
                     
                             <li><a href="/login/">Student</a></li>
@@ -29,10 +29,9 @@
                     </ul>
                 </div>
             </nav>
-          <div class="section"></div>
           <main>
             <center>
-             
+                <h5 class="indigo-text">{{verify}}</h5>
               <div class="container">
                 <div class="z-depth-1 purple lighten-5 row" style="display: inline-block; padding: 32px 48px 0px 48px; border: 1px solid #EEE;">
         
@@ -68,29 +67,36 @@
                     </div>
                     <div class='row'>
                             <div class='input-field col s12'>
-                              <input class='validate' type='text' name='ID' id='ID' />
+                              <input class='validate' type='text' name='ID' id='ID' required />
                               <label for='ID'>ID</label>
                             </div>
                     </div>
                     <div class='row'>
                             <div class='input-field col s12'>
-                              <input class='validate' type='text' name='Full_name' id='Full_name' />
+                              <input class='validate' type='text' name='Full_name' id='Full_name'  required />
                               <label for='full_name'>Full Name</label>
                             </div>
                     </div>
                     <div class='row'>
                       <div class='input-field col s12'>
-                        <input class='validate' type='email' name='email' id='email' />
+                        <input class='validate' type='email' name='email' id='email'  required />
                         <label for='email'>Email</label>
                       </div>
                     </div>
         
                     <div class='row'>
                       <div class='input-field col s12'>
-                        <input class='validate' type='password' name='password' id='password' />
+                        <input class='validate' type='password' name='password' id='password' required />
                         <label for='password'>Password</label>
                       </div>
                     </div>
+
+                    <div class='row'>
+                        <div class='input-field col s12'>
+                          <input class='validate' type='password' name='cpassword' id='cpassword' required />
+                          <label for='password'>Confirm Password</label>
+                        </div>
+                      </div>
         
                     <br />
                     <center>

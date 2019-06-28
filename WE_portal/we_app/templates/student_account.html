@@ -20,16 +20,52 @@
 <body>
     <nav>
         <div class="nav-wrapper" style ="background: #4a148c ">
-          <a href="/home/" class="brand-logo"> <img  src="{% static 'assets/WE.png' %}"  height="65" width="300"> </a>
+          <a href="/student_account/" class="brand-logo"> <img  src="{% static 'assets/WE.png' %}"  height="65" width="300"> </a>
           <ul id="nav-mobile" class="right hide-on-med-and-down">
-              <li><a href="/student_profile/">Edit Profile</a></li>
-              <li><a href="/student_account/">Account</a></li>
+              <li><a href="/student_edit_profile/">Edit Profile</a></li>
+              <li><a href="/student_account/">{{ username }}</a></li>
+              <li><form action = 'Post'> {% csrf_token %} <a href="/logout/">Log out</a></form></li>
               
             <!-- <li><a href="collapsible.html">{{Student_sign_up.student_id}}</a></li> -->
           </ul>
         </div>
   </nav>
+  <div class="row">
+      <div class="col s12 ">
+        <div class="card  deep-orange lighten-5" style = "height : 400px;width :1150px">
+          <div class="card-content ">
+            <span class="card-title grey-text"><h4>{{student.full_name}}</h4></span>
+            <p class = "black-text">{{ student.about }}</p>
 
+          
+          <h5 class = " grey-text">Faculty Review</h5>
+          <p class = "black-text">{{ student.faculty_review }}</p>
+          
+            
+            <span class="badge grey lighten-1 black-text" style = "height: 20px;width: 15px">{{ student.faculty_points }}</span>
+            <span class="badge grey lighten-1 black-text">{{ student.faculty_grade }}</span>                            
+            
+        
+              <span class="badge indigo darken-4 white-text">{{ student.fourth_interest }}</span>
+              <span class="badge indigo darken-4 white-text">{{ student.third_interest }}</span>
+              <span class="badge indigo darken-4 white-text">{{ student.second_interest }}</span>
+              <span class="badge indigo darken-4 white-text">{{ student.first_interest }}</span>
+            </div>
+          <div class="card-action black-text">
+            
+                  <a href="{{ student.email }}">Email</a>
+                  <a href="{{ student.github_link }}">GitHub</a>
+                  <a href="{{ student.gitlab_link }}">GitLab</a>
+                  <a href="{{ student.linkdIn_link }}">LinkedIn</a>
+                  <a href="{{ student.other }}">Other</a>
+                  
+          </div>
+        </div>
+      </div>
+    </div>
+ 
+                
+      
   
 </body>
 

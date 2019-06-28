@@ -17,7 +17,7 @@
 <body>
         <nav>
                 <div class="nav-wrapper" style ="background: #4a148c ">
-                  <a href="/home/" class="brand-logo"> <img  src="{% static 'assets/WE.png' %}"  height="65" width="300"> </a>
+                  <a href="/company_dashboard/" class="brand-logo"> <img  src="{% static 'assets/WE.png' %}"  height="65" width="300"> </a>
                   <ul id="nav-mobile" class="right hide-on-med-and-down">
                       <li><a href="/company_dashboard/">{{ username }}</a></li>
                       <li><form action = 'Post'> {% csrf_token %} <a href="/logout/">Log out</a></form></li>
@@ -28,40 +28,45 @@
         </nav>
         {% for student in students %}
             
-                <!-- <div class="col s4">
-                    <div class="card grey lighten-2 align-centre">
-                        <div class="card-content black-text">
-                                <span class="card-title">{{ student.full_name }}</span>
-                                <p>{{ student.tag_line }}</p>
-                            <div class="card-action grey darken-4">
-                                    <a href="{{ student.github_link }}">GitHub</a>
-                                    <a href="{{ student.gitlab_link }}">GitLab</a>
-                                    <a href="{{ student.linkdIn_link }}">LinkedIn</a>
-                                    <a href="{{ student.other }}">Other</a>
-                            </div>  
-                        
-                        
-                        </div>
-                    </div>
-                </div> -->
                 <div class = "row">
-                <div class="col s4"  data-toggle="modal" >
-                        <div class="card pink lighten-5 black-text">
-                            <div class="card-content black-text">
+                    <div class=" col s4"  data-toggle="modal" >
+                        <div class="card pink lighten-5 black-text" >
+                            <div class="card-content black-text" >
                             <span class="card-title">{{student.full_name}}</span>
-                            {{student.tag_line}}</div>
+                            {{student.tag_line}}
+                        </div>
                             <div class="card-action">
-                                <a class="btn-floating btn-large waves-purple darken-3 modal-trigger" href="#{{student.full_name}}">View</a>
-                                <div id="{{student.full_name}}" class="modal">
+                                
+                                <a class=" purple darken-3 btn modal-trigger" href="#{{student.full_name}}">View</a>
+                            
+                                <div id="{{student.full_name}}" class="modal" style = "height : 500px; width: 750px">
                                     <div class="modal-content">
                                     <h4>{{student.full_name}}</h4>
-                                    <pre class="prettyprint">{{student.about|linebreaks}}</pre>
+                                    {{ student.about }}
+                                    <h5><b>Faculty Review</b></h5>
+                                    {{ student.faculty_review }}
+                                    <div class = "badges  text-align : center">
+                                    
+                                            <span class="badge grey lighten-1 black-text" style = "height: 20px;width: 15px">{{ student.faculty_points }}</span>
+                                            <span class="badge grey lighten-1 black-text">{{ student.faculty_grade }}</span>                            
                                     </div>
+                                <div class = "badges black-text">
+                                    <!-- <span class="badge grey lighten-1 black-text" style = "height: 20px;width: 15px">{{ student.faculty_points }}</span>
+                                    <span class="badge grey lighten-1 black-text">{{ student.faculty_grade }}</span>                             -->
+                                    <span class="badge pink lighten-5">{{ student.fourth_interest }}</span>
+                                    <span class="badge pink lighten-5">{{ student.third_interest }}</span>
+                                    <span class="badge pink lighten-5">{{ student.second_interest }}</span>
+                                    <span class="badge pink lighten-5">{{ student.first_interest }}</span>
+                                </div>
+                                </div>
                                     <div class="modal-footer black-text" >
+                                            <a href="https://mail.google.com/mail/?view=cm&fs=1&to={{ student.email }}">Email</a>
                                             <a href="{{ student.github_link }}">GitHub</a>
                                             <a href="{{ student.gitlab_link }}">GitLab</a>
                                             <a href="{{ student.linkdIn_link }}">LinkedIn</a>
                                             <a href="{{ student.other }}">Other</a>
+                                            
+                                            
                                     </div>
                                 </div>
                         
@@ -69,5 +74,5 @@
                         </div>
                     </div>
         {% endfor %}  
-</body>
+    </body>
 </html>
