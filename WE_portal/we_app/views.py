@@ -172,55 +172,69 @@ def student_edit_profile(request):
 
 def student_account(request):
     context = {'username' : request.session['name'], 'student' : {} }
-    STUDENTS = fetchStudents(request)
+    STUDENTS = fetchStudents(request,None)
     for student in STUDENTS :
         if(student['full_name'] == request.session['name']) :
             context['student'] = student
     return render(request,"student_account.html",context)
 
-def company_dashboard(request):
+def company_dashboard(request, field = None):
     context = {'username' : request.session['name'], 'student' : []}
-    if request.method == 'GET':
+    if request.method == 'GET' and field == None:
         if request.session['name'] == "" :
             return redirect(login)
         else :
             context['username'] = request.session['name']
-            STUDENTS = fetchStudents(request)
+            STUDENTS = fetchStudents(request,'All')
+            context['students'] = []
+            for student in STUDENTS :
+                context['students'].append(student)
+            return render(request, 'company_dashboard.html',context)
+    if field in ['all', 'ML', 'GD', 'WD']:
+        print("Yayay")
+        if field == 'ML':
+            STUDENTS = fetchStudents(request,'Machine Learning')
+            context['students'] = []
+            for student in STUDENTS :
+                context['students'].append(student)
+            return render(request, 'company_dashboard.html',context)
+        elif field == 'WD':
+            STUDENTS = fetchStudents(request,'Web Dev')
+            context['students'] = []
+            for student in STUDENTS :
+                context['students'].append(student)
+            return render(request, 'company_dashboard.html',context)
+        elif field == 'GD':
+            STUDENTS = fetchStudents(request,'Graphic Design')
+            context['students'] = []
+            for student in STUDENTS :
+                context['students'].append(student)
+            return render(request, 'company_dashboard.html',context)
+        else :
+            STUDENTS = fetchStudents(request,'All')
             context['students'] = []
             for student in STUDENTS :
                 context['students'].append(student)
             return render(request, 'company_dashboard.html',context)
 
-def fetchStudents(request) :
+def fetchStudents(request , field) :
     STUDENTS = []
     students = Student_profile.objects.all()
     for student in students :
         STUDENT = {}
-        STUDENT['full_name'] = student.full_name
-        STUDENT['email'] = student.email_id
-        STUDENT['about'] = student.about
-        STUDENT['qualification'] = student.qualification
-        STUDENT['tag_line'] = student.tag_line
-        STUDENT['resume'] = student.resume
-        STUDENT['first_interest'] = student.first_interest
-        STUDENT['second_interest'] = student.second_interest
-        STUDENT['third_interest'] = student.third_interest
-        STUDENT['fourth_interest'] = student.fourth_interest
-        STUDENT['github_link'] = student.github_link
-        STUDENT['gitlab_link'] = student.gitlab_link
-        STUDENT['linkdIn_link'] = student.linkdIn_link
-        STUDENT['other'] = student.Other
-        try :
-            stu_faculty = Faculty_Student.objects.filter(full_name = student.full_name)
-            stu_faculty = stu_faculty[0]
-            STUDENT['faculty_review'] = stu_faculty.faculty_review
-            STUDENT['faculty_points'] = stu_faculty.faculty_points
-            STUDENT['faculty_grade'] = stu_faculty.faculty_grade
-        except :
-            pass
+        STUDENT = student.__dict__
         STUDENTS.append(STUDENT)
-    # STUDENTS = sorted(STUDENTS, key=lambda x: x['faculty_points'], reverse=True)
-    return STUDENTS
+    if field == 'All' or field == None:
+        return STUDENTS
+    else :
+        rem = []
+        for STUDENT in STUDENTS :
+            if  field not in STUDENT.values():
+                rem.append(STUDENT)
+        for i in rem :
+            STUDENTS.remove(i)
+        #STUDENTS = sorted(STUDENTS, key=lambda x: x['faculty_points'], reverse=True)
+        return STUDENTS
 
 def faculty_dashboard(request):
     context = {'username' : request.session['name'], 'facstu' : []}
@@ -255,17 +269,10 @@ def faculty_student(request):
 def faculty_student_edit(request):
     context = {'username' :request.session['name'], 'facstu' : []}
     if request.method == 'GET' :
-        soup = BeautifulSoup('/home/hetal/Projects/we_portal/WE_portal/we_app/templates/faculty_dashboard.html')
-        name_tag = soup.find('h4', itemprop='name')
-        print(name_tag)
         fs = Faculty_Student.objects.filter(faculty_name = request.session['name'])
         fs = fs[0]
         FS = {}
-        FS['student_name'] = fs.full_name
-        FS['email'] = fs.email_id
-        FS['faculty_grade'] = fs.faculty_grade
-        FS['faculty_points'] = fs.faculty_points
-        FS['faculty_review'] = fs.faculty_review
+        FS = fs.__dict__
         context['facstu'].append(FS)
         return render(request,'faculty_student_edit.html',context)
     else :
@@ -301,4 +308,3 @@ def fetchFacultyStudent(request):
 
 def home(request):
     return render(request, "home.html")
-

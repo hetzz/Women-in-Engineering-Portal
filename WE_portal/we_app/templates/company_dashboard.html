@@ -17,7 +17,7 @@
 <body>
         <nav>
                 <div class="nav-wrapper" style ="background: #4a148c ">
-                  <a href="/company_dashboard/" class="brand-logo"> <img  src="{% static 'assets/WE.png' %}"  height="65" width="300"> </a>
+                  <a href="/company_dashboard/" class="brand-logo"> <img  src="{% static 'assets/WE.png' %}"  height="64" width="300"> </a>
                   <ul id="nav-mobile" class="right hide-on-med-and-down">
                       <li><a href="/company_dashboard/">{{ username }}</a></li>
                       <li><form action = 'Post'> {% csrf_token %} <a href="/logout/">Log out</a></form></li>
@@ -26,6 +26,14 @@
                   </ul>
                 </div>
         </nav>
+        <div class = "row" style=" margin-left : 10px; margin-top:20px;">
+        <!-- <div class="col s4"> -->
+                <a class=" purple darken-4 btn" href="all" id="all">All</a>    
+                <a class="purple darken-4 btn" href="ML" id="ML">Machine Learning</a>
+                <a class=" purple darken-4 btn" href="WD" id="WD">Web Dev</a>
+                <a class=" purple darken-4 btn" href="GD" id="GD">Graphic Design</a>
+        <!-- </div> -->
+    </div>
         {% for student in students %}
             
                 <div class = "row">
@@ -60,7 +68,7 @@
                                 </div>
                                 </div>
                                     <div class="modal-footer black-text" >
-                                            <a href="https://mail.google.com/mail/?view=cm&fs=1&to={{ student.email }}">Email</a>
+                                            <a href="https://mail.google.com/mail/?view=cm&fs=1&to={{ student.email_id }}">Email</a>
                                             <a href="{{ student.github_link }}">GitHub</a>
                                             <a href="{{ student.gitlab_link }}">GitLab</a>
                                             <a href="{{ student.linkdIn_link }}">LinkedIn</a>
