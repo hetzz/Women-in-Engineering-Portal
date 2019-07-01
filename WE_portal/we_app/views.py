@@ -55,41 +55,39 @@ def login(request):
     else:
         email = request.POST.get('email', None)
         password = request.POST.get('password', None)
-        if request.POST.get('Student', None):
-            try :
-                student = Student.objects.filter(email_id=email)
-                student = student[0]
-            except :
-                student = None
+        try :
+            student = Student.objects.filter(email_id=email)
+            student = student[0]
             if student != None and student.password == password  :
                 request.session['name'] = student.full_name
                 return redirect(student_account)
             else:
                 return render(request, 'login.html', context={'verify': 'Either Email or password is wrong :/'})
-        elif request.POST.get('Faculty', None):
-            try :
-                faculty = Faculty.objects.filter(email_id=email)
-                faculty = faculty[0]
-            except :
-                faculty = None
+        except :
+            pass
+        try :
+            faculty = Faculty.objects.filter(email_id=email)
+            faculty = faculty[0]
             if faculty != None and faculty.password == password:
                 request.session['name'] = faculty.faculty_name
                 request.session['email'] = faculty.email_id
                 return redirect(faculty_dashboard)
             else:
                 return render(request, 'login.html', context={'verify': 'Either Email or password is wrong :/'})
-        
-        elif request.POST.get('Company', None):
-            try :
-                company = Company.objects.filter(email_id=email)
-                company = company[0]
-            except :
-                company = None
+        except :
+            pass
+        try :
+            company = Company.objects.filter(email_id=email)
+            company = company[0]
             if company != None and company.password == password:
                 request.session['name'] = company.company_name
                 return redirect(company_dashboard)
             else:
                 return render(request, 'login.html', context={'verify': 'Either Email or password is wrong :/'})
+        except :
+            pass
+
+        return render(request, 'login.html', context={'verify': 'Either Email or password is wrong :/'})
        
 def logout(request):
     if request.method=='GET':

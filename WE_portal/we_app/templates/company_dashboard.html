@@ -51,6 +51,7 @@
                                     <div class="modal-content">
                                     <h4>{{student.full_name}}</h4>
                                     {{ student.about }}
+                                    {% if student.faculty_review %}
                                     <h5><b>Faculty Review</b></h5>
                                     {{ student.faculty_review }}
                                     <div class = "badges  text-align : center">
@@ -58,6 +59,7 @@
                                             <span class="badge grey lighten-1 black-text" style = "height: 20px;width: 15px">{{ student.faculty_points }}</span>
                                             <span class="badge grey lighten-1 black-text">{{ student.faculty_grade }}</span>                            
                                     </div>
+                                    {% endif %}
                                 <div class = "badges black-text">
                                     <!-- <span class="badge grey lighten-1 black-text" style = "height: 20px;width: 15px">{{ student.faculty_points }}</span>
                                     <span class="badge grey lighten-1 black-text">{{ student.faculty_grade }}</span>                             -->
