@@ -132,20 +132,7 @@ def student_edit_profile(request):
         student = Student_profile.objects.filter(full_name = request.session['name'])
         student = student[0]
         STUDENT = {}
-        STUDENT['full_name'] = request.session['name']
-        STUDENT['email'] = student.email_id
-        STUDENT['about'] = student.about
-        STUDENT['qualification'] = student.qualification
-        STUDENT['tag_line'] = student.tag_line
-        STUDENT['resume'] = student.resume
-        STUDENT['first_interest'] = student.first_interest
-        STUDENT['second_interest'] = student.second_interest
-        STUDENT['third_interest'] = student.third_interest
-        STUDENT['fourth_interest'] = student.fourth_interest
-        STUDENT['github_link'] = student.github_link
-        STUDENT['gitlab_link'] = student.gitlab_link
-        STUDENT['linkdIn_link'] = student.linkdIn_link
-        STUDENT['other'] = student.Other
+        STUDENT = student.__dict__
         context['students'].append(STUDENT)
         return render(request,'student_edit_profile.html',context)
     else :
@@ -223,6 +210,12 @@ def fetchStudents(request , field) :
     for student in students :
         STUDENT = {}
         STUDENT = student.__dict__
+        try :
+            fs = Faculty_Student.objects.filter(student_name = STUDENT['full_name'])
+            FACULTY_STUDENT = fs[0].__dict__
+            STUDENT.update(FACULTY_STUDENT)
+        except :
+            pass
         STUDENTS.append(STUDENT)
     if field == 'All' or field == None:
         return STUDENTS
@@ -258,18 +251,18 @@ def faculty_student(request):
         fs = Faculty_Student()
         fs.faculty_name = request.session['name']
         fs.faculty_email_id = request.session['email']
-        fs.full_name = request.POST.get('full_name')
-        fs.email_id = request.POST.get('email')
+        fs.student_name = request.POST.get('full_name')
+        fs.student_email_id = request.POST.get('email')
         fs.faculty_grade = request.POST.get('faculty_grade')
         fs.faculty_points = request.POST.get('faculty_points')
         fs.faculty_review = request.POST.get('faculty_review')
         fs.save()
         return redirect(faculty_dashboard)
 
-def faculty_student_edit(request):
+def faculty_student_edit(request , student = None):
     context = {'username' :request.session['name'], 'facstu' : []}
-    if request.method == 'GET' :
-        fs = Faculty_Student.objects.filter(faculty_name = request.session['name'])
+    if request.method == 'GET' and student != None:
+        fs = Faculty_Student.objects.filter(faculty_name = request.session['name']).filter(student_name = student)
         fs = fs[0]
         FS = {}
         FS = fs.__dict__
@@ -280,8 +273,8 @@ def faculty_student_edit(request):
         fs = fs[0]
         fs.faculty_name = request.session['name']
         fs.faculty_email_id = request.session['email']
-        fs.full_name = request.POST.get('full_name')
-        fs.email_id = request.POST.get('email')
+        fs.student_name = request.POST.get('full_name')
+        fs.student_email_id = request.POST.get('email')
         fs.faculty_grade = request.POST.get('faculty_grade')
         fs.faculty_points = request.POST.get('faculty_points')
         fs.faculty_review = request.POST.get('faculty_review')
@@ -294,11 +287,7 @@ def fetchFacultyStudent(request):
         facstu = Faculty_Student.objects.filter(faculty_name = request.session['name'])
         for fs in facstu :
             FS = {}
-            FS['student_name'] = fs.full_name
-            FS['email'] = fs.email_id
-            FS['faculty_grade'] = fs.faculty_grade
-            FS['faculty_points'] = fs.faculty_points
-            FS['faculty_review'] = fs.faculty_review
+            FS = fs.__dict__
             FACSTU.append(FS)
         FACSTU = sorted(FACSTU, key=lambda x: x['faculty_points'], reverse=True)
         return FACSTU   

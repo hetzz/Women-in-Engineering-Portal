@@ -22,9 +22,6 @@ class Student_profile(models.Model):
     gitlab_link = models.CharField(max_length = 100, default = None)
     linkdIn_link = models.CharField(max_length = 100, default = None)
     Other = models.CharField(max_length = 100, default = None)
-    faculty_review = models.CharField(max_length = 1000, default = 'Good')
-    faculty_points = models.IntegerField(default = 50)
-    faculty_grade = models.CharField(max_length = 10, default = 'C')
 
 class Faculty(models.Model):
     Faculty_id = models.CharField(max_length = 50)
@@ -35,8 +32,8 @@ class Faculty(models.Model):
 class Faculty_Student(models.Model):
     faculty_name = models.CharField(max_length = 150, default = 'Faculty')
     faculty_email_id = models.CharField(max_length = 100)
-    full_name = models.CharField(max_length = 100,default = 'Student')
-    email_id = models.CharField(max_length = 100,default = 'NA')
+    student_name = models.CharField(max_length = 100,default = 'Student')
+    student_email_id = models.CharField(max_length = 100,default = 'NA')
     faculty_review = models.CharField(max_length = 1000, default = 'Good')
     faculty_points = models.IntegerField(default = 50)
     faculty_grade = models.CharField(max_length = 10, default = 'C')

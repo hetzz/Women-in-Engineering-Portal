@@ -14,6 +14,6 @@ urlpatterns =[
     path('faculty_dashboard/',views.faculty_dashboard),
     path('faculty_student/',views.faculty_student),
     path('student_edit_profile/',views.student_edit_profile),
-    path('faculty_student_edit/<name>',views.faculty_student_edit),
+    path('faculty_dashboard/<student>',views.faculty_student_edit),
     path('',views.home)
 ]
