@@ -26,14 +26,18 @@
                   </ul>
                 </div>
         </nav>
+        
         <div class = "row" style=" margin-left : 10px; margin-top:20px;">
         <!-- <div class="col s4"> -->
                 <a class=" purple darken-4 btn" href="all" id="all">All</a>    
-                <a class="purple darken-4 btn" href="ML" id="ML">Machine Learning</a>
-                <a class=" purple darken-4 btn" href="WD" id="WD">Web Dev</a>
-                <a class=" purple darken-4 btn" href="GD" id="GD">Graphic Design</a>
+                {% for field in fields %}
+                <a class="purple darken-4 btn" href="{{ field }}" id="{{ field }}">{{ field }}</a>
+                {% endfor %}
+                <!-- <a class=" purple darken-4 btn" href="WD" id="WD">Web Dev</a>
+                <a class=" purple darken-4 btn" href="GD" id="GD">Graphic Design</a> -->
         <!-- </div> -->
     </div>
+    
         {% for student in students %}
             
                 <div class = "row">
@@ -47,7 +51,7 @@
                                 
                                 <a class=" purple darken-3 btn modal-trigger" href="#{{student.full_name}}">View</a>
                             
-                                <div id="{{student.full_name}}" class="modal" style = "height : 500px; width: 750px">
+                                <div id="{{student.full_name}}" class="modal" style = "height : 500px; width: 750px; animation-direction:reverse">
                                     <div class="modal-content">
                                     <h4>{{student.full_name}}</h4>
                                     {{ student.about }}

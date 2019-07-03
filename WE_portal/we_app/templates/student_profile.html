@@ -70,8 +70,9 @@
                             </div>
                         </div>
                     <div class = "col s12">
-                    <form class = "col s12" action="POST">
+                    <form class = "col s12" action="POST" method="post" enctype="multipart/form-data">
                         <div class="file-field input-field col s12">
+                            {{ resume.as_p }}
                           <div class="btn purple darken-4 ">
                             <span>File</span>
                             <input type="file" id = "Resume" name = "Resume">

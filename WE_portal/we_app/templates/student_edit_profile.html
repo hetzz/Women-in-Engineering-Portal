@@ -21,7 +21,6 @@
         <div class="nav-wrapper" style ="background: #4a148c ">
           <a href="/student_account/" class="brand-logo"> <img  src="{% static 'assets/WE.png' %}"  height="65" width="300"> </a>
           <ul id="nav-mobile" class="right hide-on-med-and-down">
-              <li><a href="/student_profile/">Edit Profile</a></li>
               <li><a href="/student_account/">{{ username }}</a></li>
               <li><form action = 'Post'> {% csrf_token %} <a href="/logout/">Log out</a></form></li>
               
@@ -71,12 +70,13 @@
                             </div>
                         </div>
                     <div class = "col s12">
-                    <form class = "col s12" action="POST">
+                    <form class = "col s12" action="POST" method="post" >
                         <div class="file-field input-field col s12">
-                          <div class="btn purple darken-4 ">
-                            <span>File</span>
+                            
+                          <button class="btn purple darken-4 " type = 'submit'>FILE</button>
+                              
                             <input type="file" id = "Resume" name = "Resume">
-                          </div>
+                          
                           <div class="file-path-wrapper">
                             <input class="file-path validate" type="text" placeholder="Resume">
                           </div>

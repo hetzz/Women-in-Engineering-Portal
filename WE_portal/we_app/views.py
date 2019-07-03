@@ -2,7 +2,8 @@ from django.shortcuts import render, redirect
 from django.http import JsonResponse, HttpResponse
 import string
 from pprint import pprint
-from .models import Student, Student_profile, Faculty, Company,Faculty_Student
+from .models import Student, Student_profile, Faculty, Company,Faculty_Student,fields_of_interests
+from .forms import ResumeForm
 from bs4 import BeautifulSoup
 # Create your views here.
 
@@ -87,7 +88,7 @@ def login(request):
         except :
             pass
 
-        return render(request, 'login.html', context={'verify': 'Either Email or password is wrong :/'})
+        return render(request, 'login.html', context={'verify': 'Either Email or password is wrong :/'})                                                                                                                                                                         
        
 def logout(request):
     if request.method=='GET':
@@ -111,15 +112,28 @@ def student_profile(request):
             profile.qualification = request.POST.get('Degree')
             profile.tag_line = request.POST.get('Tag Line')
             #profile.resume = request.POST.get('Resume')
-            profile.first_interest = request.POST.get('first_interest')
-            profile.second_interest = request.POST.get('second_interest')
-            profile.third_interest = request.POST.get('third_interest')
-            profile.fourth_interest = request.POST.get('fourth_interest')
+            resume = ResumeForm(request.POST, request.FILES)
+            if resume.is_valid():
+                profile.resume = Student_profile(resume = request.FILES['resume'])
+            
+            else:
+                form = ResumeForm()
+            f = profile.first_interest = request.POST.get('first_interest')
+            s = profile.second_interest = request.POST.get('second_interest')
+            t = profile.third_interest = request.POST.get('third_interest')
+            ft = profile.fourth_interest = request.POST.get('fourth_interest')
             profile.github_link = request.POST.get('github_link')
             profile.gitlab_link = request.POST.get('gitlab_link')
             profile.linkdIn_link = request.POST.get('linkdIn_link')
             profile.Other = request.POST.get('Other')
             profile.save()
+            check_fields = [f,s,t,ft]
+            fields_objects = getStudentsInterests()
+            for field in check_fields :
+                if field not in fields_objects :
+                    new_field = fields_of_interests()
+                    new_field.fields = field
+                    new_field.save()
             profile = Student_profile.objects.filter(full_name = student)
             profile = profile[0]
             return redirect(student_account)
@@ -127,11 +141,14 @@ def student_profile(request):
 def student_edit_profile(request):
     context = {'username' : request.session['name'], 'students' :[]}
     if request.method == 'GET':
-        student = Student_profile.objects.filter(full_name = request.session['name'])
-        student = student[0]
-        STUDENT = {}
-        STUDENT = student.__dict__
-        context['students'].append(STUDENT)
+        try :
+            student = Student_profile.objects.filter(full_name = request.session['name'])
+            student = student[0]
+            STUDENT = {}
+            STUDENT = student.__dict__
+            context['students'].append(STUDENT)
+        except :
+            pass
         return render(request,'student_edit_profile.html',context)
     else :
         profile = Student_profile.objects.filter(full_name = request.session['name'])
@@ -141,19 +158,29 @@ def student_edit_profile(request):
         profile.about = request.POST.get('About')
         profile.qualification = request.POST.get('Degree')
         profile.tag_line = request.POST.get('Tag Line')
-        #profile.resume = request.POST.get('Resume')
-        profile.first_interest = request.POST.get('first_interest')
-        profile.second_interest = request.POST.get('second_interest')
-        profile.third_interest = request.POST.get('third_interest')
-        profile.fourth_interest = request.POST.get('fourth_interest')
+        resume = ResumeForm(request.POST, request.FILES)
+        if resume.is_valid():
+            profile.resume = Student_profile(resume = request.FILES['resume'])
+            
+        else:
+            form = ResumeForm()
+        f = profile.first_interest = request.POST.get('first_interest')
+        s = profile.second_interest = request.POST.get('second_interest')
+        t = profile.third_interest = request.POST.get('third_interest')
+        ft = profile.fourth_interest = request.POST.get('fourth_interest')
         profile.github_link = request.POST.get('github_link')
         profile.gitlab_link = request.POST.get('gitlab_link')
         profile.linkdIn_link = request.POST.get('linkdIn_link')
         profile.Other = request.POST.get('Other')
         profile.save()
+        check_fields = [f,s,t,ft]
+        fields_objects = getStudentsInterests()
+        for field in check_fields :
+            if field not in fields_objects :
+                new_field = fields_of_interests()
+                new_field.fields = field
+                new_field.save() 
         return redirect(student_account)
-
-
 
 def student_account(request):
     context = {'username' : request.session['name'], 'student' : {} }
@@ -164,44 +191,29 @@ def student_account(request):
     return render(request,"student_account.html",context)
 
 def company_dashboard(request, field = None):
-    context = {'username' : request.session['name'], 'student' : []}
+    context = {'username' : request.session['name'], 'student' : [],'fields' :[]}
+    FIELDS = getStudentsInterests()
+    context['fields'] = []
+    for f in FIELDS :
+        context['fields'].append(f)
     if request.method == 'GET' and field == None:
         if request.session['name'] == "" :
             return redirect(login)
         else :
             context['username'] = request.session['name']
-            STUDENTS = fetchStudents(request,'All')
+            STUDENTS = fetchStudents(request,'all')
             context['students'] = []
             for student in STUDENTS :
                 context['students'].append(student)
             return render(request, 'company_dashboard.html',context)
-    if field in ['all', 'ML', 'GD', 'WD']:
-        print("Yayay")
-        if field == 'ML':
-            STUDENTS = fetchStudents(request,'Machine Learning')
-            context['students'] = []
-            for student in STUDENTS :
-                context['students'].append(student)
-            return render(request, 'company_dashboard.html',context)
-        elif field == 'WD':
-            STUDENTS = fetchStudents(request,'Web Dev')
-            context['students'] = []
-            for student in STUDENTS :
-                context['students'].append(student)
-            return render(request, 'company_dashboard.html',context)
-        elif field == 'GD':
-            STUDENTS = fetchStudents(request,'Graphic Design')
-            context['students'] = []
-            for student in STUDENTS :
-                context['students'].append(student)
-            return render(request, 'company_dashboard.html',context)
-        else :
-            STUDENTS = fetchStudents(request,'All')
-            context['students'] = []
-            for student in STUDENTS :
-                context['students'].append(student)
-            return render(request, 'company_dashboard.html',context)
-
+    
+    else :
+        STUDENTS = fetchStudents(request,field)
+        context['students'] = []
+        for student in STUDENTS :
+            context['students'].append(student)
+        return render(request, 'company_dashboard.html',context)
+        
 def fetchStudents(request , field) :
     STUDENTS = []
     students = Student_profile.objects.all()
@@ -215,7 +227,7 @@ def fetchStudents(request , field) :
         except :
             pass
         STUDENTS.append(STUDENT)
-    if field == 'All' or field == None:
+    if field == 'all' or field == None:
         return STUDENTS
     else :
         rem = []
@@ -291,7 +303,13 @@ def fetchFacultyStudent(request):
         return FACSTU   
     except :
         pass        
-    
+
+def getStudentsInterests():
+    fields = fields_of_interests.objects.all()
+    field = []
+    for f in fields :
+        field.append(f.fields)
+    return field
 
 def home(request):
     return render(request, "home.html")
