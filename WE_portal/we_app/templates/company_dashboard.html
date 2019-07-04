@@ -30,14 +30,25 @@
         <div class = "row" style=" margin-left : 10px; margin-top:20px;">
         <!-- <div class="col s4"> -->
                 <a class=" purple darken-4 btn" href="all" id="all">All</a>    
-                {% for field in fields %}
+                <!-- {% for field in fields %}
                 <a class="purple darken-4 btn" href="{{ field }}" id="{{ field }}">{{ field }}</a>
-                {% endfor %}
-                <!-- <a class=" purple darken-4 btn" href="WD" id="WD">Web Dev</a>
-                <a class=" purple darken-4 btn" href="GD" id="GD">Graphic Design</a> -->
+                {% endfor %} -->
+                <a class=" purple darken-4 btn" href="Machine Learning" id="Machine Learning">Machine Learning</a>
+                <a class=" purple darken-4 btn" href="Web Development" id="Web Development">Web Development</a>
+                <a class=" purple darken-4 btn" href="Graphic Design" id="Graphic Design">Graphic Design</a>
+               
         <!-- </div> -->
     </div>
-    
+    <div class = "row">
+    <div class="input-field col s12">
+        <select>
+            {% for field in fields %}
+          <option value="{{ field }}"><a class ="purple darken-4"href="{{ field }}" id="{{ field }}" >{{ field }}</a></option>
+          {% endfor %}
+        </select>
+        <label> Select</label>
+      </div>
+    </div>
         {% for student in students %}
             
                 <div class = "row">
