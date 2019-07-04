@@ -8,5 +8,5 @@ A portal to connect the industrialists with the wise(women in software engineeri
 * Companies
 * Faculty
 
-
+Still a work in progress.
 Hetal Kuvadia 2000088
