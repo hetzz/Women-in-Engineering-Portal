@@ -13,7 +13,7 @@ class Student_profile(models.Model):
     about = models.CharField(max_length = 500)
     qualification = models.CharField(max_length = 50)
     tag_line = models.CharField(max_length = 200, default = qualification)
-    resume = models.FileField(null = True, blank = True,upload_to = 'WE_portal/Resume')
+    resume = models.FileField(null = True, blank = True,upload_to = 'Resume')
     first_interest = models.CharField(max_length = 50 , default = None)
     second_interest = models.CharField(max_length = 50, default = None)
     third_interest = models.CharField(max_length = 50, default = None)
@@ -51,3 +51,7 @@ class Company_Student(models.Model):
 
 class fields_of_interests(models.Model):
     fields = models.CharField(max_length = 200, default = "Field")
+
+class CsvFiles(models.Model):
+    faculty_email_id = models.CharField(max_length = 100)
+    csv = models.FileField(null = True, blank = True,upload_to = 'CSV/')

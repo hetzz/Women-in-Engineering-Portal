@@ -26,6 +26,21 @@
                   </ul>
                 </div>
         </nav>
+        
+        
+                
+        <div class = "col s12" style = "padding : 1% 1% 1% 1%">
+                   
+            <form  method="POST"  enctype="multipart/form-data" >
+                {% csrf_token %}
+               
+                <input  type="file" id = "csv" name = "csv"></input>
+                <input  type="submit" > </input>
+            </form>
+        </div>
+        <div style = "padding: 1% 1% 1% 1%">
+        <a href="/media/{{ csv }}">{{ csv }}</a> 
+    </div>
         {% for fs in facstu %}
             
                 <div class = "row">

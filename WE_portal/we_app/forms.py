@@ -6,3 +6,6 @@ class ResumeForm(forms.Form):
         label='Select a file',
         help_text='max. 42 megabytes'
     )
+class CSVForm(forms.Form):
+    CSV = forms.FileField(label='Select a file',
+        help_text='max. 42 megabytes')

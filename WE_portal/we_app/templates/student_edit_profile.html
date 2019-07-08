@@ -31,7 +31,7 @@
      {% for student in students %}       
     <div class="container z-depth-2" style="background:#f3e5f5 " style="margin-top: 2vw;">       
         <div class="student_profile" style ="align-content: center">
-          <form class ="col s12" method="POST">
+          <form class ="col s12" method="POST"  enctype="multipart/form-data" action="/student_edit_profile/">
             {% csrf_token %}
             <div class="student_input">
                 <div class="row">
@@ -70,18 +70,16 @@
                             </div>
                         </div>
                     <div class = "col s12">
-                    <form class = "col s12" action="POST" method="post" >
-                        <div class="file-field input-field col s12">
-                            
-                          <button class="btn purple darken-4 " type = 'submit'>FILE</button>
-                              
-                            <input type="file" id = "Resume" name = "Resume">
+                    <!-- <form class = "col s12" action="POST" method="post" > -->
+                        <!-- <div class="file-field input-field col s12"> -->
+                                                          
+                            <input  type="file" id = "Resume" name = "resume">
                           
                           <div class="file-path-wrapper">
-                            <input class="file-path validate" type="text" placeholder="Resume">
-                          </div>
+                            <a href="/media/{{ student.resume }}">Resume</a>
+                          <!-- </div> -->
                         </div>
-                    </form>
+                    <!-- </form> -->
                     </div>
                     <!-- <div class = "col  s12"><h5> Enter your Fields of interest</h5></div> -->
                     <div class="col s12">

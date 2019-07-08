@@ -2,9 +2,10 @@ from django.shortcuts import render, redirect
 from django.http import JsonResponse, HttpResponse
 import string
 from pprint import pprint
-from .models import Student, Student_profile, Faculty, Company,Faculty_Student,fields_of_interests
-from .forms import ResumeForm
+from .models import Student, Student_profile, Faculty, Company,Faculty_Student,fields_of_interests,CsvFiles
+from .forms import ResumeForm, CSVForm
 from bs4 import BeautifulSoup
+import csv as csv_pack
 # Create your views here.
 
 
@@ -114,8 +115,7 @@ def student_profile(request):
             #profile.resume = request.POST.get('Resume')
             resume = ResumeForm(request.POST, request.FILES)
             if resume.is_valid():
-                profile.resume = Student_profile(resume = request.FILES['resume'])
-            
+                profile.resume = request.FILES['resume']
             else:
                 form = ResumeForm()
             f = profile.first_interest = request.POST.get('first_interest')
@@ -160,8 +160,7 @@ def student_edit_profile(request):
         profile.tag_line = request.POST.get('Tag Line')
         resume = ResumeForm(request.POST, request.FILES)
         if resume.is_valid():
-            profile.resume = Student_profile(resume = request.FILES['resume'])
-            
+            profile.resume = request.FILES['resume']
         else:
             form = ResumeForm()
         f = profile.first_interest = request.POST.get('first_interest')
@@ -172,6 +171,7 @@ def student_edit_profile(request):
         profile.gitlab_link = request.POST.get('gitlab_link')
         profile.linkdIn_link = request.POST.get('linkdIn_link')
         profile.Other = request.POST.get('Other')
+        print(profile.__dict__)
         profile.save()
         check_fields = [f,s,t,ft]
         fields_objects = getStudentsInterests()
@@ -248,7 +248,49 @@ def faculty_dashboard(request):
             FACSTU = fetchFacultyStudent(request)
             for fs in FACSTU :
                 context['facstu'].append(fs)
+            try :
+                csv = CsvFiles.objects.filter(faculty_email_id = request.session['email'])
+                context['csv'] = csv[0].csv
+            except :
+                pass
             return render(request, 'faculty_dashboard.html',context)
+    else :
+        CSV = CSVForm(request.POST, request.FILES)
+        # if csv.is_valid():
+        try:
+            faculty_csv = CsvFiles.objects.filter(faculty_email_id = request.session['email'])
+            faculty_csv = faculty_csv[0]
+            faculty_csv.csv = request.FILES['csv']
+            faculty_csv.save()
+        except:
+            faculty_csv = CsvFiles()
+            faculty_csv.faculty_email_id = request.session['email']
+            faculty_csv.csv = request.FILES['csv']
+            faculty_csv.save()
+        with open('/home/hetal/Projects/Women-in-Engineering-Portal/WE_portal/media/CSV/'+str(request.FILES['csv']),'rt')as f:
+            data = csv_pack.reader(f)
+            for row in data:
+                try :
+                    fs = Faculty_Student.objects.filter(student_name = row[0])
+                    fs = fs[0]
+                    print('Yes')
+                except :
+                    print("no")
+                    fs = Faculty_Student()
+                fs.faculty_name = request.session['name']
+                fs.faculty_email_id = request.session['email']
+                fs.student_name = row[0]
+                fs.student_email_id = row[1]
+                fs.faculty_grade = row[3]
+                fs.faculty_points = row[4]
+                fs.faculty_review = row[2]
+                fs.save()
+        # else:
+        #     print("Invalid")
+        #     form = CSVForm()    
+        #print(request.FILES['csv'])
+        
+        return redirect(faculty_dashboard)
 
 def faculty_student(request):
     context = {'username' : request.session['name']}
