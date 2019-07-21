@@ -55,7 +55,7 @@
 ------------------------------------------
 <div align = "center">
 
-<img src="WE_portal/we_app/static/assets/WE_Portal.mp4" width=600%/>
+<img src="WE_portal/we_app/static/assets/WE_Portal.gif" width=600px/>
 <br/><br/>
 
 </div>
