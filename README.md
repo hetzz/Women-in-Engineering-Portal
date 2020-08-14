@@ -1,5 +1,5 @@
 <div align = "center">
-<img src="https://talentsprintwe.com/images/talentsprintwe-logo.png" width=200px/>
+<img src="https://talentsprintwe.com/images/talentsprintwe-logo.png" width=500px/>
  </div>
 <div align="center">
 
