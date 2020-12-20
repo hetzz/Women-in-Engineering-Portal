@@ -1,0 +1,143 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel = "stylesheet" href = "https://fonts.googleapis.com/icon?family=Material+Icons">
+    <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src = "https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>       
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+    <title>Student Profile</title>
+</head>
+<body>
+  
+  <nav>
+        <div class="nav-wrapper" style ="background: #4a148c ">
+          <a href="/student_account/" class="brand-logo"> <img  src="{% static 'assets/WE.png' %}"  height="65" width="300"> </a>
+          <ul id="nav-mobile" class="right hide-on-med-and-down">
+              <li><a href="/student_account/">{{ username }}</a></li>
+              <li><form action = 'Post'> {% csrf_token %} <a href="/logout/">Log out</a></form></li>
+              
+            <!-- <li><a href="collapsible.html">{{Student_sign_up.student_id}}</a></li> -->
+          </ul>
+        </div>
+  </nav>
+            
+    <div class="container z-depth-2" style="background:#f3e5f5 " style="margin-top: 2vw;">       
+        <div class="student_profile" style ="align-content: center">
+          <form class ="col s12" method="POST">
+            {% csrf_token %}
+            <div class="student_input">
+                <div class="row">
+                        <div class=" col s12">
+                            <div class="input-field col s12">
+                                <textarea name = "FullName" id="FullName" class="materialize-textarea" ></textarea>
+                                <label for="FullName">Full Name</label>
+                            </div>
+                        </div>
+                        <div class=" col s12">
+                        <div class="input-field col s12">
+                                <textarea name = "email" id="email" class="materialize-textarea" ></textarea>
+                                <label for="email">Primary email Address</label>
+                          </div>
+                        </div>
+                    
+                        <div class="col s12 ">
+                          <div class="input-field col s12">
+                            <textarea name = "About" id="About" class="materialize-textarea" data-length = "500"></textarea>
+                            <label for="About">About </label>
+                          </div>
+                        </div>
+                    
+                        <div class="col s12">
+                            <div class="input-field col s12">
+                                <textarea name = "Degree" id="Degree" class="materialize-textarea" ></textarea>
+                                <label for="Degree">Enter your qualification</label>
+                            </div>
+                        </div>
+                    
+                    
+                        <div class="col s12">
+                            <div class="input-field col s12">
+                                <textarea name = "Tag Line" id ="Tag Line" class="materialize-textarea" ></textarea>
+                                <label for="Tag Line">Tag Line(Max 200 characters)</label>
+                            </div>
+                        </div>
+                    <div class = "col s12">
+                    <form class = "col s12" action="POST" method="post" enctype="multipart/form-data">
+                        <div class="file-field input-field col s12">
+                            {{ resume.as_p }}
+                          <div class="btn purple darken-4 ">
+                            <span>File</span>
+                            <input type="file" id = "Resume" name = "Resume">
+                          </div>
+                          <div class="file-path-wrapper">
+                            <input class="file-path validate" type="text" placeholder="Resume">
+                          </div>
+                        </div>
+                    </form>
+                    </div>
+                    <!-- <div class = "col  s12"><h5> Enter your Fields of interest</h5></div> -->
+                    <div class="col s12">
+                        <div class="input-field col s6">
+                            <input name = "first_interest" id="first_interest" type="text" class="validate">
+                            <label for="first_interest">First field of Interest</label>
+                          </div>
+                        <div class="input-field col s6">
+                          <input name = "second_interest" id="second_interest" type="text" class="validate">
+                          <label for="second_interest">Second field of Interest</label>
+                        </div>
+                    </div>
+                    <div class="col s12">
+                        <div class="input-field col s6">
+                            <input name = "third_interest" id="third_interest" type="text" class="validate">
+                            <label for="third_interest">Third field of Interest</label>
+                          </div>
+                          <div class="input-field col s6">
+                              <input name = "fourth_interest" id="fourth_interest" type="text" class="validate">
+                              <label for="fourth_interest">Fourth field of Interest</label>
+                          </div>
+                    </div>
+                    <div class="col s12">
+                        <div class="input-field col s6">
+                            <input name = "github_link" id="github_link" type="url" pattern="https?://.+" required  class="validate">
+                            <label for="github_link">Github Link</label>
+                          </div>
+                        <div class="input-field col s6">
+                          <input name = "gitlab_link" id="gitlab_link" type="url" pattern="https?://.+" required  class="validate">
+                          <label for="gitlab_link">Gitlab Link</label>
+                        </div>
+                    </div>
+                    <div class="col s12">
+                        <div class="input-field col s6">
+                            <input name = "linkdIn_link" id="linkdIn_link" type="url" pattern="https?://.+" required  class="validate">
+                            <label for="linkdIn_link">LinkdIn Link</label>
+                          </div>
+                          <div class="input-field col s6">
+                              <input name = "Other" id="Other" type="url" pattern="https?://.+" required class="validate">
+                              <label for="Other">Other</label>
+                          </div>
+                    </div>
+                    <div class ="right-align col s7">
+                      <button class="btn  purple darken-4 " type="submit" name="action"  >Submit</button>
+                    </div>
+                  
+                </div>
+            </div>
+          </form>
+        </div>
+    </div>
+    <script
+         src="https://code.jquery.com/jquery-3.4.1.js"
+         integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+         crossorigin="anonymous"></script>
+         {% load static %}
+    <script src="{% static '/scripts/student_profile.js' %}"></script>
+</body>
+</html>

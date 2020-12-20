@@ -1,0 +1,71 @@
+<html>
+
+<head>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+ {% load static %} 
+  <link rel="stylesheet" type="text/css" href="{% static 'styles/student_login.css' %}">
+  <script src ="{% static 'scripts/scripts.js' %}"></script>
+</head>
+
+<body>
+        
+    <nav>
+        <div class="nav-wrapper" style ="background: #4a148c ">
+            <a href="/" class="brand-logo"> <img  src="/static/assets/WE.png"  height="65" width="300"> </a>
+            <!-- <ul id="nav-mobile" class="right hide-on-med-and-down"> -->
+            <li><a href="/signUp/">SignUp</a></li>
+            
+            <!-- <li><a href="collapsible.html">{{Student_sign_up.student_id}}</a></li> -->
+            </ul>
+        </div>
+    </nav>
+  <main>
+    <center>
+
+      <h5 class="indigo-text">{{verify}}</h5>
+     
+      <div class="container">
+        <div class="z-depth-1 purple lighten-5 row" style="display: inline-block;height:20%;width: 50%; padding: 32px 48px 0px 48px; border: 1px solid #EEE;">
+
+          <form class="col s12" method="post">
+			{% csrf_token %}
+            <div class='col s12'>
+                                </div>
+			
+            <div class='row'>
+              <div class='input-field col s12'>
+                <input class='validate' type='email' name='email' id='email' />
+                <label for='email'>Email</label>
+              </div>
+            </div>
+
+            <div class='row'>
+              <div class='input-field col s12'>
+                <input class='validate' type='password' name='password' id='password' />
+                <label for='password'>Password</label>
+              </div>
+              <!-- <label style='float: right;'>
+					<a class='pink-text' href='#!'><b>Forgot Password?</b></a>
+					</label> -->
+            </div>
+
+            <br/>
+            <center>
+              <div class='row'>
+                <button type='submit' name='btn_login' class='col s12 btn btn-large waves-effect purple darken-4'>Login</button>
+              </div>
+            </center>
+          </form>
+        </div>
+      </div>
+      <a href="/signUp/">Create account</a>
+    </center>
+  </main>
+
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.1/jquery.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  
+</body>
+
+</html>

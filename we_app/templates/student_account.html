@@ -1,0 +1,72 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.5.0/themes/prism.min.css"/>
+    <link rel = "stylesheet" href = "https://fonts.googleapis.com/icon?family=Material+Icons">
+    <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src = "https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>       
+    <script src = "https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>       
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+    <title>Student Profile</title>
+</head>
+<body>
+    <nav>
+        <div class="nav-wrapper" style ="background: #4a148c ">
+          <a href="/student_account/" class="brand-logo"> <img  src="{% static 'assets/WE.png' %}"  height="65" width="300"> </a>
+          <ul id="nav-mobile" class="right hide-on-med-and-down">
+              <li><a href="/student_edit_profile/">Edit Profile</a></li>
+              <li><a href="/student_account/">{{ username }}</a></li>
+              <li><form action = 'Post'> {% csrf_token %} <a href="/logout/">Log out</a></form></li>
+              
+            <!-- <li><a href="collapsible.html">{{Student_sign_up.student_id}}</a></li> -->
+          </ul>
+        </div>
+  </nav>
+  <div class="row">
+      <div class="col s12 ">
+        <div class="card  deep-orange lighten-5" style = "height : 400px;width :1150px">
+          <div class="card-content ">
+            <span class="card-title grey-text"><h4>{{student.full_name}}</h4></span>
+            <p class = "black-text">{{ student.about }}</p>
+
+          {% if student.faculty_review %}
+          <h5 class = " grey-text">Faculty Review</h5>
+          <p class = "black-text">{{ student.faculty_review }}</p>
+          
+            
+            <span class="badge grey lighten-1 black-text" style = "height: 20px;width: 15px">{{ student.faculty_points }}</span>
+            <span class="badge grey lighten-1 black-text">{{ student.faculty_grade }}</span>                            
+          {% endif %}
+        
+              <span class="badge indigo darken-4 white-text">{{ student.fourth_interest }}</span>
+              <span class="badge indigo darken-4 white-text">{{ student.third_interest }}</span>
+              <span class="badge indigo darken-4 white-text">{{ student.second_interest }}</span>
+              <span class="badge indigo darken-4 white-text">{{ student.first_interest }}</span>
+            </div>
+          <div class="card-action black-text" style = "height: 10%; width : 100%">
+            
+                  <a href="{{ student.email }}">Email</a>
+                  <a href="{{ student.github_link }}">GitHub</a>
+                  <a href="{{ student.gitlab_link }}">GitLab</a>
+                  <a href="{{ student.linkdIn_link }}">LinkedIn</a>
+                  <a href="{{ student.other }}">Other</a>
+                  
+          </div>
+        </div>
+      </div>
+    </div>
+ 
+                
+      
+  
+</body>
+
+</html>
